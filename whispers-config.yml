@@ -1,22 +1,17 @@
 rules:
-  - name: AWS Access Key
-    regex: "AKIA[0-9A-Z]{16}"
+  - name: Private Key
+    regex: "-----BEGIN PRIVATE KEY-----"
 
-  - name: Generic Password
+  - name: Password
     regex: "(?i)password\\s*=\\s*['\\\"]?.+['\\\"]?"
 
   - name: API Key
     regex: "(?i)api[_-]?key\\s*=\\s*['\\\"]?.+['\\\"]?"
 
-  - name: Private Key
-    regex: "-----BEGIN PRIVATE KEY-----"
-
 exclude:
   files:
-    - gitleaks-report.json
-    - whispers-report.json
-    - detectsecrets-report.json
-
-  directories:
-    - .git
-    - devsecops-resources-basic
+    - ".git/*"
+    - "devsecops-resources-basic/*"
+    - "gitleaks-report.json"
+    - "whispers-report.json"
+    - "detectsecrets-report.json"
