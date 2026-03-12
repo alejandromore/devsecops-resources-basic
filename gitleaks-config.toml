@@ -1,0 +1,22 @@
+title = "Demo Gitleaks Config"
+
+[extend]
+useDefault = true
+
+[[rules]]
+id = "generic-api-key"
+description = "Generic API Key"
+regex = '''(?i)api[_-]?key\s*[:=]\s*[0-9a-zA-Z]{16,45}'''
+tags = ["apikey"]
+
+[[rules]]
+id = "password"
+description = "Hardcoded password"
+regex = '''(?i)password\s*[:=]\s*['"].+['"]'''
+tags = ["password"]
+
+[[rules]]
+id = "private-key"
+description = "Private Key"
+regex = '''-----BEGIN PRIVATE KEY-----'''
+tags = ["key","crypto"]
