@@ -18,9 +18,21 @@ done
 
 REPORT="secrets-report-${PROJECT}-${BUILD}.json"
 
-# Combina resultados
+# Combinar resultados de scanners
 ISSUES=$(jq -s '[.[][]]' gitleaks-report.json whispers-report.json detectsecrets-report.json 2>/dev/null)
 
+# Filtrar falsos positivos comunes
+ISSUES=$(echo "$ISSUES" | jq '
+  map(select(
+    (.key != "sonar.projectKey") and
+    (.file | contains(".git") | not) and
+    (.file | contains("devsecops-resources") | not) and
+    (.file | contains("gitleaks-report.json") | not) and
+    (.file | contains("whispers-report.json") | not)
+  ))
+')
+
+# Generar reporte final
 cat <<EOF > $REPORT
 {
   "team": "$TEAM",
@@ -32,5 +44,5 @@ cat <<EOF > $REPORT
 }
 EOF
 
-# IMPORTANTE: imprimir solo el nombre del archivo
+# IMPORTANTE: Jenkins espera SOLO el nombre del archivo
 echo $REPORT
