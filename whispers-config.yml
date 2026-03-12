@@ -10,10 +10,13 @@ rules:
 
   - name: Private Key
     regex: "-----BEGIN PRIVATE KEY-----"
-    
+
 exclude:
-  - devsecops-resources-basic
-  - .git
-  - gitleaks-report.json
-  - whispers-report.json
-  - detectsecrets-report.json
+  files:
+    - gitleaks-report.json
+    - whispers-report.json
+    - detectsecrets-report.json
+
+  directories:
+    - .git
+    - devsecops-resources-basic
