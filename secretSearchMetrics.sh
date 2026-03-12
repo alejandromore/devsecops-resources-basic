@@ -18,9 +18,7 @@ done
 
 REPORT="secrets-report-${PROJECT}-${BUILD}.json"
 
-echo "Generating consolidated report..."
-
-# Combina resultados de herramientas
+# Combina resultados
 ISSUES=$(jq -s '[.[][]]' gitleaks-report.json whispers-report.json detectsecrets-report.json 2>/dev/null)
 
 cat <<EOF > $REPORT
@@ -34,7 +32,5 @@ cat <<EOF > $REPORT
 }
 EOF
 
-echo "Report generated: $REPORT"
-
-# Jenkins espera el nombre del archivo
+# IMPORTANTE: imprimir solo el nombre del archivo
 echo $REPORT
