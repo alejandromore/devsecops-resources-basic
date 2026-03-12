@@ -20,3 +20,12 @@ id = "private-key"
 description = "Private Key"
 regex = '''-----BEGIN PRIVATE KEY-----'''
 tags = ["key","crypto"]
+
+[allowlist]
+paths = [
+  '''devsecops-resources-basic/''',
+  '''\.git/''',
+  '''gitleaks-report\.json''',
+  '''whispers-report\.json''',
+  '''detectsecrets-report\.json'''
+]
