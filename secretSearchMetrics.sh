@@ -19,7 +19,12 @@ done
 REPORT="secrets-report-${PROJECT}-${BUILD}.json"
 
 # Combinar resultados de scanners
-ISSUES=$(jq -s '[.[][]]' gitleaks-report.json whispers-report.json detectsecrets-report.json 2>/dev/null)
+ISSUES=$(jq -s '[.[][]]' gitleaks-report.json whispers-report.json detectsecrets-report.json | jq '
+map(select(
+  (.severity != "Low") and
+  (.rule_id != "file-known")
+))
+')
 
 # Filtrar falsos positivos comunes
 ISSUES=$(echo "$ISSUES" | jq '
