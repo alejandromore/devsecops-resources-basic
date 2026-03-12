@@ -12,6 +12,7 @@ exclude:
   files:
     - ".git/*"
     - "devsecops-resources-basic/*"
-    - "gitleaks-report.json"
-    - "whispers-report.json"
-    - "detectsecrets-report.json"
+
+allowlist:
+  regexes:
+    - "sonar.projectKey"
