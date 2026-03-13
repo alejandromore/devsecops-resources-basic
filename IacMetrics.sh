@@ -1,7 +1,5 @@
 #!/bin/bash
 
-set -e
-
 while getopts a:p:t:b:n: flag
 do
     case "${flag}" in
@@ -15,10 +13,15 @@ done
 
 DATE=$(date +%Y%m%d%H%M%S)
 
-OUTPUT_FILE="iac-scan-${TEAM}-${PROJECT}-${PIPELINE}-${BRANCH}-${BUILD}-${DATE}.json"
+OUTPUT_FILE="iac-scan-${TEAM:-team}-${PROJECT:-project}-${PIPELINE:-pipeline}-${BRANCH:-branch}-${BUILD:-0}-${DATE}.json"
 
 echo "Generating IaC metrics report..."
 
-cat trivy-iac-report.json > ${OUTPUT_FILE}
+if [ ! -f trivy-iac-report.json ]; then
+  echo "ERROR: trivy-iac-report.json not found"
+  exit 1
+fi
 
-echo ${OUTPUT_FILE}
+cp trivy-iac-report.json "${OUTPUT_FILE}"
+
+echo "${OUTPUT_FILE}"
